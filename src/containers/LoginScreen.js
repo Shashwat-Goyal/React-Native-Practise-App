@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Image, View, Text, StyleSheet, TextInput, TouchableOpacity, Button, AsyncStorage} from 'react-native';
+import { Image, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Button, AsyncStorage} from 'react-native';
 import LoadingImage from '../components/LoadingImage';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
@@ -37,51 +37,70 @@ export default class LoginScreen extends React.Component {
 		const { email, password } = this.state.user;
 		console.log(AsyncStorage, email, password, "AsyncStorage");
 		return (
-			<View style={newStyles.container}>
-				<View style={newStyles.headerMargin}>
-					<Text style={newStyles.heading}>SHRINGAR JEWELLERY</Text>
-					<TextInput
-						name="email"
-				        style={newStyles.input}
-				        onChangeText={(text) => this.onChangeText('email' , text)}
-				        value={email}
-				        placeholder="Email address OR username"
-				        placeholderTextColor={"gray"}
-				        keyboardType="email-address"
-				        returnKeyType="next"
-				        underlineColorAndroid="transparent"
-				      />
-				    <TextInput
-						name="password"
-				        style={newStyles.input}
-				        onChangeText={(text) => this.onChangeText('password', text)}
-				        value={password}
-				        placeholder="Your Password"
-				        secureTextEntry={true}
-				        placeholderTextColor={"gray"}
-				        returnKeyType="go"
-				        underlineColorAndroid="transparent"
-				      />
-				    <Text style={{textAlign: 'center', color: 'gray', marginTop: 5}} onPress={() => this.goToForgotPassword()}>
-				    	Forgot Password?
-				    </Text>
-				    <TouchableOpacity style={styles.buttonContainer}>
-					    <Text
-					    	style={{textAlign: 'center', 
-					    		color: 'black', 
-					    		fontSize: 20, 
-					    		backgroundColor: '#fff', 
-					    		padding:15, 
-					    		height: 60, 
-					    		minWidth: 200,
-					    		borderRadius: 25
-					    	}}
-					    >
-					    Log In
+			<ScrollView style={newStyles.container}>
+				<View>
+					<View style={newStyles.headerMargin}>
+						<Text style={newStyles.heading}>COMPANY NAME</Text>
+						<TextInput
+							name="email"
+					        style={newStyles.input}
+					        onChangeText={(text) => this.onChangeText('email' , text)}
+					        value={email}
+					        placeholder="Email address OR username"
+					        placeholderTextColor={"gray"}
+					        keyboardType="email-address"
+					        returnKeyType="next"
+					        underlineColorAndroid="transparent"
+					      />
+					    <TextInput
+							name="password"
+					        style={newStyles.input}
+					        onChangeText={(text) => this.onChangeText('password', text)}
+					        value={password}
+					        placeholder="Your Password"
+					        secureTextEntry={true}
+					        placeholderTextColor={"gray"}
+					        returnKeyType="go"
+					        underlineColorAndroid="transparent"
+					      />
+					    <Text style={{textAlign: 'center', color: 'gray', marginTop: 5}} onPress={() => this.goToForgotPassword()}>
+					    	Forgot Password?
 					    </Text>
-					</TouchableOpacity>
-				</View>
-
+					    <View style={{flex: 1, justifyContent:'center'}}> 
+						    <TouchableOpacity style={styles.buttonContainer}>
+							    <Text
+							    	style={{textAlign: 'center', 
+							    		color: 'black', 
+							    		fontSize: 20, 
+							    		backgroundColor: '#fff', 
+							    		padding:15, 
+							    		height: 60, 
+							    		minWidth: 200,
+							    		borderRadius: 25
+							    	}}
+							    >
+							    Log In
+							    </Text>
+							</TouchableOpacity>
+						</View>
+						<Text style={{textAlign: 'center', color: 'gray'}}>
+							_________        Or Log In using          ___________
+ 						</Text>
+						<View style={{flex:1, flexDirection: 'row', marginTop: 40, alignItems: 'center', justifyContent: 'center'}}>
+							<Image 
+								source={require('../../images/logo-facebook.png')}
+								style={{height: 100, width: 100, marginRight: 30}}
+							/>
+							<Image 
+								source={require('../../images/LI_TRk1z_400x400.jpg')}
+								style={{height: 75, width: 80, borderRadius: 30}}
+							/>
+						</View>
+						<View style={{flex:1, flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'center'}}>
+							<Text style={{marginRight: 30, color: 'gray'}}>Facebook</Text>
+							<Text style={{color: 'gray', marginLeft: 30}}>Google</Text>
+						</View>
+					</View>
 				{/*<LoadingImage source={require('../../images/dp_se6.jpg')} />
 				<View style={styles.formContainer}>
 					<TextInput
@@ -112,6 +131,7 @@ export default class LoginScreen extends React.Component {
 				    </TouchableOpacity>
 				</View>*/}
 			</View>
+			</ScrollView>
 			)
 	}
 }
@@ -133,8 +153,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	buttonContainer : {
+		alignItems: 'center',
 		padding: 20,
-		alignItems: 'center'
+		justifyContent: 'center',
+		alignSelf: "center"
 	},
 	buttonText: {
 		textAlign: 'center',
@@ -155,7 +177,7 @@ const newStyles = StyleSheet.create({
 		marginTop : 60
 	},
 	container: {
-		backgroundColor : '#2a2a2a',
+		backgroundColor : '#151515',
 		flex: 1
 	},
 	input : {
