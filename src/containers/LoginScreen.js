@@ -86,20 +86,15 @@ export default class LoginScreen extends React.Component {
 						<Text style={{textAlign: 'center', color: 'gray'}}>
 							_________        Or Log In using          ___________
  						</Text>
-						<View style={{flex:1, flexDirection: 'row', marginTop: 40, alignItems: 'center', justifyContent: 'center'}}>
+						<View style={{flex:1, flexDirection: 'row', marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
 							<Image 
-								source={require('../../images/logo-facebook.png')}
-								style={{height: 100, width: 100, marginRight: 30}}
-							/>
-							<Image 
-								source={require('../../images/LI_TRk1z_400x400.jpg')}
-								style={{height: 75, width: 80, borderRadius: 30}}
+								source={require('../../images/ZW4QC.png')}
 							/>
 						</View>
-						<View style={{flex:1, flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'center'}}>
-							<Text style={{marginRight: 30, color: 'gray'}}>Facebook</Text>
-							<Text style={{color: 'gray', marginLeft: 30}}>Google</Text>
-						</View>
+						<Image 
+							source={require('../../images/google_login_large.png')}
+							style={{marginTop: 10, alignSelf: 'center', width: 210, height: 45}}
+						/>
 					</View>
 				{/*<LoadingImage source={require('../../images/dp_se6.jpg')} />
 				<View style={styles.formContainer}>
