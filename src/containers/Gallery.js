@@ -1,13 +1,70 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+import ImageCard from '../components/ImageCard';
+import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right } from 'native-base';
+import { Font } from 'expo';
 
 export default class Gallery extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			fontLoaded: false
+		}
+	}
+
+	async componentDidMount() {
+	    await Font.loadAsync({
+	      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+          'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+	    });
+
+	    this.setState({ fontLoaded: true });
+	}
+
 	render() {
+
+		const imageURL = 'https://www.manekratna.com/images/';
+		const { fontLoaded } = this.state;
+
+		const products = [
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'cz-jewellery	', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'bangles', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'temple-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'thewa-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'polki-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'maang-tika', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'kundan-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'finger-rings', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'earrings', productDetail: 'Product Detail Here'},
+			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'antique-jewellery', productDetail: 'Product Detail Here'}
+		]
+
 		return (
-			<View>
-				<Text>Gallery Content Here</Text>
-			</View>
+			fontLoaded ? <ScrollView style={{marginTop: 20}}>
+				<Header 
+					searchBar 
+					iosBarStyle="dark-content"
+					androidStatusBarColor="#fff"
+				>
+					 <Left>
+			            <Button transparent onPress={() => this.props.navigation.navigate('Home')}>
+			              <Icon name='arrow-back' />
+			            </Button>
+			          </Left>
+					<Body>
+		            	<Title>Categories</Title>
+		          	</Body>
+		        </Header>
+				{products && products.map((product, index) => {
+					return <ImageCard key={index}
+						image={{uri: `${imageURL}${product.image}.jpg`}}
+						title={product.title}
+						subtitle={product.subtitle}
+						productDetail={product.productDetail}
+					/>
+				})}
+			</ScrollView> : <View><Text>Loading...</Text></View>
 			)
 	}
 }

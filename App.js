@@ -123,7 +123,19 @@ import reducer from './src/redux/reducers';
 import LoginScreen from './src/containers/LoginScreen';
 import { createStore, applyMiddleware} from 'redux';
 import Navigations from './src/containers/Navigations';
+import { COLOR, ThemeProvider } from 'react-native-material-ui';
 
+// you can set your style right here, it'll be propagated to application
+const uiTheme = {
+    palette: {
+        primaryColor: COLOR.green500,
+    },
+    toolbar: {
+        container: {
+            height: 50,
+        },
+    },
+};
 const store = createStore(reducer, applyMiddleware(thunk));
 
 export default class App extends Component {
@@ -134,10 +146,13 @@ export default class App extends Component {
   
   render() {
     return (
+
         <Provider store={store}>
-           <View style={{flex: 1, alignItems: 'stretch'}}>
-            <Navigations onNavigationStateChange={(prevState, currentState) => this.navigationChange(prevState, currentState)} />
-          </View>
+          <ThemeProvider uiTheme={uiTheme}>
+            <View style={{flex: 1, alignItems: 'stretch'}}>
+              <Navigations onNavigationStateChange={(prevState, currentState) => this.navigationChange(prevState, currentState)} />
+            </View>
+          </ThemeProvider>
         </Provider>
       )
   }

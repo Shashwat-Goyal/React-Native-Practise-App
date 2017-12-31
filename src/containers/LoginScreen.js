@@ -1,6 +1,17 @@
 import React from 'react';
-
-import { Image, View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Button, AsyncStorage} from 'react-native';
+import { Font } from 'expo';
+import { 
+	Image, 
+	Linking, 
+	View, 
+	Text, 
+	StyleSheet, 
+	TextInput, 
+	TouchableOpacity, 
+	ScrollView, 
+	Button, 
+	AsyncStorage
+} from 'react-native';
 import LoadingImage from '../components/LoadingImage';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
@@ -14,8 +25,22 @@ export default class LoginScreen extends React.Component {
 			user: {
 				email: '',
 				password: ''
-			}
+			},
+			fontLoaded: false
 		};
+	}
+
+	async componentDidMount() {
+	    await Font.loadAsync({
+	      'oxygen': require('./../../assets/Oxygen/Oxygen-Bold.ttf'),
+	    });
+
+	    this.setState({ fontLoaded: true });
+	    Linking.addEventListener('url', this._handleURL);
+	}
+
+	_handleURL(event) {
+		console.log(event.url)
 	}
 
 	onChangeText(name, value) {
@@ -29,7 +54,12 @@ export default class LoginScreen extends React.Component {
 	}
 
 	goToForgotPassword() {
-		this.props.navigation.navigate('Gallery');		
+		this.props.navigation.navigate('ForgotPassword');		
+	}
+
+	openGoogleAuth() {
+		console.log('entering')
+		Linking.openURL("https://www.google.com");
 	}
 
 	render() {
@@ -40,7 +70,7 @@ export default class LoginScreen extends React.Component {
 			<ScrollView style={newStyles.container}>
 				<View>
 					<View style={newStyles.headerMargin}>
-						<Text style={newStyles.heading}>COMPANY NAME</Text>
+						{this.state.fontLoaded ? <Text style={newStyles.heading}>COMPANY NAME</Text> : null}
 						<TextInput
 							name="email"
 					        style={newStyles.input}
@@ -76,7 +106,7 @@ export default class LoginScreen extends React.Component {
 							    		padding:15, 
 							    		height: 60, 
 							    		minWidth: 200,
-							    		borderRadius: 25
+							    		borderRadius: 25,
 							    	}}
 							    >
 							    Log In
@@ -87,14 +117,18 @@ export default class LoginScreen extends React.Component {
 							_________        Or Log In using          ___________
  						</Text>
 						<View style={{flex:1, flexDirection: 'row', marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
-							<Image 
-								source={require('../../images/ZW4QC.png')}
-							/>
+							<TouchableOpacity style={{selfAlign: 'center'}}>
+								<Image 
+									source={require('../../images/ZW4QC.png')}
+								/>
+							</TouchableOpacity>
 						</View>
-						<Image 
-							source={require('../../images/google_login_large.png')}
-							style={{marginTop: 10, alignSelf: 'center', width: 210, height: 45}}
-						/>
+						<TouchableOpacity style={{selfAlign: 'center'}} onPress={() => this.openGoogleAuth()}>
+							<Image 
+								source={require('../../images/google_login_large.png')}
+								style={{marginTop: 10, alignSelf: 'center', width: 210, height: 45}}
+							/>
+						</TouchableOpacity>
 					</View>
 				{/*<LoadingImage source={require('../../images/dp_se6.jpg')} />
 				<View style={styles.formContainer}>
@@ -166,7 +200,8 @@ const newStyles = StyleSheet.create({
 		fontSize: 30,
 		marginBottom: 5,
 		borderBottomWidth : 2,
-		borderBottomColor : '#3f3f3f'
+		borderBottomColor : '#3f3f3f',
+		fontFamily: 'oxygen'
 	},
 	headerMargin : {
 		marginTop : 60
