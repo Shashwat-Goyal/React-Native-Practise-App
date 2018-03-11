@@ -1,7 +1,21 @@
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import ImageCard from '../components/ImageCard';
-import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right } from 'native-base';
+import { 
+ Container, 
+ Title,
+ Header,
+ Content, 
+ Card, 
+ CardItem, 
+ Thumbnail, 
+ Button, 
+ Icon, 
+ Left, 
+ Body, 
+ Right,
+ Spinner 
+} from 'native-base';
 import { Font } from 'expo';
 
 export default class Gallery extends React.Component {
@@ -28,10 +42,10 @@ export default class Gallery extends React.Component {
 		const { fontLoaded } = this.state;
 
 		const products = [
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'cz-jewellery	', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'bangles', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'temple-jewellery', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'thewa-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Sets', subtitle: 'Polki', image: 'cz-jewellery	', productDetail: 'Product Detail Here'},
+			{title: 'Sets', subtitle: 'Kundan', image: 'bangles', productDetail: 'Product Detail Here'},
+			{title: 'Sets', subtitle: 'Bridal', image: 'temple-jewellery', productDetail: 'Product Detail Here'},
+			{title: 'Earrings', subtitle: 'Polki', image: 'thewa-jewellery', productDetail: 'Product Detail Here'},
 			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'polki-jewellery', productDetail: 'Product Detail Here'},
 			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'maang-tika', productDetail: 'Product Detail Here'},
 			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'kundan-jewellery', productDetail: 'Product Detail Here'},
@@ -41,7 +55,7 @@ export default class Gallery extends React.Component {
 		]
 
 		return (
-			fontLoaded ? <ScrollView style={{marginTop: 20}}>
+			fontLoaded ? <ScrollView style={{marginTop: 25}}>
 				<Header 
 					searchBar 
 					iosBarStyle="dark-content"
@@ -64,7 +78,7 @@ export default class Gallery extends React.Component {
 						productDetail={product.productDetail}
 					/>
 				})}
-			</ScrollView> : <View><Text>Loading...</Text></View>
+			</ScrollView> : <View style={{marginTop: 200}}><Spinner color="green"></Spinner></View>
 			)
 	}
 }

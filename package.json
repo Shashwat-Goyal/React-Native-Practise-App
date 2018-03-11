@@ -23,6 +23,7 @@
     "native-base": "^2.3.5",
     "react": "16.0.0-beta.5",
     "react-native": "^0.49.5",
+    "react-native-easy-grid": "^0.1.17",
     "react-native-elements": "^0.18.5",
     "react-native-material-cards": "^1.0.7",
     "react-native-material-design": "^0.3.7",

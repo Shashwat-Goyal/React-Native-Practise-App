@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 */
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './src/redux/reducers';
@@ -148,11 +148,10 @@ export default class App extends Component {
     return (
 
         <Provider store={store}>
-          <ThemeProvider uiTheme={uiTheme}>
-            <View style={{flex: 1, alignItems: 'stretch'}}>
+            <View style={{flex: 1}}>
+              <StatusBar translucent hidden={false} backgroundColor="rgba(0, 0, 0, 0.20)" barStyle="dark-content" animated/>
               <Navigations onNavigationStateChange={(prevState, currentState) => this.navigationChange(prevState, currentState)} />
             </View>
-          </ThemeProvider>
         </Provider>
       )
   }

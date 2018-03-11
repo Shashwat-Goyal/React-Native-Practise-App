@@ -76,7 +76,7 @@ export default class LoginScreen extends React.Component {
 					        style={newStyles.input}
 					        onChangeText={(text) => this.onChangeText('email' , text)}
 					        value={email}
-					        placeholder="Email address OR username"
+					        placeholder="Enter Email address OR username"
 					        placeholderTextColor={"gray"}
 					        keyboardType="email-address"
 					        returnKeyType="next"
@@ -114,16 +114,16 @@ export default class LoginScreen extends React.Component {
 							</TouchableOpacity>
 						</View>
 						<Text style={{textAlign: 'center', color: 'gray'}}>
-							_________        Or Log In using          ___________
+							___________        Or Log In using          ___________
  						</Text>
 						<View style={{flex:1, flexDirection: 'row', marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
-							<TouchableOpacity style={{selfAlign: 'center'}}>
+							<TouchableOpacity style={{alignSelf: 'center'}}>
 								<Image 
 									source={require('../../images/ZW4QC.png')}
 								/>
 							</TouchableOpacity>
 						</View>
-						<TouchableOpacity style={{selfAlign: 'center'}} onPress={() => this.openGoogleAuth()}>
+						<TouchableOpacity style={{alignSelf: 'center', paddingBottom: 20}} onPress={() => this.openGoogleAuth()}>
 							<Image 
 								source={require('../../images/google_login_large.png')}
 								style={{marginTop: 10, alignSelf: 'center', width: 210, height: 45}}
