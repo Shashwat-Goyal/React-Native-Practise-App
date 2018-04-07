@@ -17,6 +17,7 @@ import {
  Spinner 
 } from 'native-base';
 import { Font } from 'expo';
+import { products, imageURL } from '../constants';
 
 export default class Gallery extends React.Component {
 
@@ -37,25 +38,10 @@ export default class Gallery extends React.Component {
 	}
 
 	render() {
-
-		const imageURL = 'https://www.manekratna.com/images/';
 		const { fontLoaded } = this.state;
 
-		const products = [
-			{title: 'Sets', subtitle: 'Polki', image: 'cz-jewellery	', productDetail: 'Product Detail Here'},
-			{title: 'Sets', subtitle: 'Kundan', image: 'bangles', productDetail: 'Product Detail Here'},
-			{title: 'Sets', subtitle: 'Bridal', image: 'temple-jewellery', productDetail: 'Product Detail Here'},
-			{title: 'Earrings', subtitle: 'Polki', image: 'thewa-jewellery', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'polki-jewellery', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'maang-tika', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'kundan-jewellery', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'finger-rings', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'earrings', productDetail: 'Product Detail Here'},
-			{title: 'Product Title', subtitle: 'Product SubTitle', image: 'antique-jewellery', productDetail: 'Product Detail Here'}
-		]
-
 		return (
-			fontLoaded ? <ScrollView style={{marginTop: 25}}>
+			fontLoaded ? <ScrollView>
 				<Header 
 					searchBar 
 					iosBarStyle="dark-content"
@@ -75,7 +61,7 @@ export default class Gallery extends React.Component {
 						image={{uri: `${imageURL}${product.image}.jpg`}}
 						title={product.title}
 						subtitle={product.subtitle}
-						productDetail={product.productDetail}
+						name={product.name}
 					/>
 				})}
 			</ScrollView> : <View style={{marginTop: 200}}><Spinner color="green"></Spinner></View>

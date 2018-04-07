@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import auth from './auth';
 
 const data = (state = {
   isFetching: false,
@@ -11,7 +12,8 @@ const data = (state = {
 };
 
 const rootReducer = combineReducers({
-  data
+  data,
+  auth
 });
 
 export default rootReducer;

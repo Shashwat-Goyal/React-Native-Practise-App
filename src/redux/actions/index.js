@@ -1,4 +1,4 @@
-export const REQUEST_DATA = "REQUEST_DATA";
+/* export const REQUEST_DATA = "REQUEST_DATA";
 export const RECEIVE_DATA = "RECEIVE_DATA";
 
 export const requestData = () => {
@@ -23,8 +23,10 @@ const fetchData = () => {
       dispatch(receiveData(data));
     }, 300);
   };
-};
+}; */
+
+import auth from './auth';
 
 module.exports = {
-  fetchData
+  ...auth
 }

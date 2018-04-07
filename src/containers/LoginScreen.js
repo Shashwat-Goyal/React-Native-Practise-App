@@ -10,11 +10,15 @@ import {
 	TouchableOpacity, 
 	ScrollView, 
 	Button, 
-	AsyncStorage
+	AsyncStorage,
+	ToastAndroid,
+	ActivityIndicator,
+	Alert
 } from 'react-native';
 import LoadingImage from '../components/LoadingImage';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
+import { isLoggedIn } from '../utils';
 
 @connect((state) => state)
 export default class LoginScreen extends React.Component {
@@ -29,6 +33,10 @@ export default class LoginScreen extends React.Component {
 			fontLoaded: false
 		};
 	}
+
+	static navigationOptions = isLoggedIn() ? {
+		drawerLabel: () => null
+   	} : {}
 
 	async componentDidMount() {
 	    await Font.loadAsync({
@@ -57,20 +65,91 @@ export default class LoginScreen extends React.Component {
 		this.props.navigation.navigate('ForgotPassword');		
 	}
 
-	openGoogleAuth() {
-		console.log('entering')
-		Linking.openURL("https://www.google.com");
+	openGoogleAuth = async () => {
+		/* console.log('entering')
+		Linking.openURL("https://www.google.com"); */
+		try {
+			const result = await Expo.Google.logInAsync({
+			  androidClientId: '531138605132-8ptlkdftjb51kqo9ktnnndgnr6upm2qv.apps.googleusercontent.com',
+			  //iosClientId: '151704944008-f825n5vtrt5c08p2784f3jrposi7fom4.apps.googleusercontent.com',
+			  scopes: ['profile', 'email'],
+			});
+			console.log(result, "result")
+			if (result.type === 'success') {
+			  return result.accessToken;
+			} else {
+			  return {cancelled: true};
+			}
+		  } catch(e) {
+			return {error: true};
+		  }
+	}
+
+	login() {
+		const { user } = this.state;
+		const { email, password } = user;
+		if(!email || !email.trim()){
+			this.showNotification('Please enter your Email');
+			return ; 
+		}
+		if(email) {
+			let emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+			let res = emailReg.test(email);
+			if(!res){
+				this.showNotification('Please Provide a valid email');
+				return ;
+			}
+		}
+		if(!password || !password.trim()){
+			this.showNotification('Please enter your Password');
+			return ; 
+		}
+		this.props.dispatch(actions.login(user));
+	}
+
+	showNotification(message='') {
+		ToastAndroid.show(
+			message,
+			ToastAndroid.SHORT,
+			ToastAndroid.BOTTOM
+		  );
+	}
+
+	goToSignUp = () => {
+		this.props.navigation.navigate('Register');
+	}
+
+	focusNextField = (id) => {
+		console.log(id, "id")
+		this[`${id}Field`].focus();
+	}
+
+	openFacebookAuth = async () => {
+		console.log("token")
+		const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('164414460873792', {
+			permissions: ['public_profile'],
+		});
+		
+		if (type === 'success') {
+		  // Get the user's name using Facebook's Graph API
+		  const response = await fetch(
+			`https://graph.facebook.com/me?access_token=${token}`);
+		  Alert.alert(
+			'Logged in!',
+			`Hi ${(await response.json()).name}!`,
+		  );
+		}
 	}
 
 	render() {
-		this.props.dispatch(actions.fetchData());
 		const { email, password } = this.state.user;
-		console.log(AsyncStorage, email, password, "AsyncStorage");
+		const { loading=false } = this.props.auth || {};
+		console.log(this.props, loading, "props")
 		return (
 			<ScrollView style={newStyles.container}>
 				<View>
 					<View style={newStyles.headerMargin}>
-						{this.state.fontLoaded ? <Text style={newStyles.heading}>COMPANY NAME</Text> : null}
+						{this.state.fontLoaded ? <Text style={newStyles.heading}>SHINGAR JEWELS</Text> : null}
 						<TextInput
 							name="email"
 					        style={newStyles.input}
@@ -79,8 +158,11 @@ export default class LoginScreen extends React.Component {
 					        placeholder="Enter Email address OR username"
 					        placeholderTextColor={"gray"}
 					        keyboardType="email-address"
-					        returnKeyType="next"
-					        underlineColorAndroid="transparent"
+							returnKeyType="next"
+							blurOnSubmit={ true }
+							underlineColorAndroid="transparent"
+							onSubmitEditing={() => this.focusNextField('password')}
+							ref={(c) => this.emailField = c}
 					      />
 					    <TextInput
 							name="password"
@@ -88,17 +170,22 @@ export default class LoginScreen extends React.Component {
 					        onChangeText={(text) => this.onChangeText('password', text)}
 					        value={password}
 					        placeholder="Your Password"
-					        secureTextEntry={true}
+							secureTextEntry={true}
+							blurOnSubmit={ true }
 					        placeholderTextColor={"gray"}
 					        returnKeyType="go"
-					        underlineColorAndroid="transparent"
+							underlineColorAndroid="transparent"
+							onSubmitEditing={() => {
+								this.login();
+							}}
+							ref={(c) => this.passwordField = c}
 					      />
-					    <Text style={{textAlign: 'center', color: 'gray', marginTop: 5}} onPress={() => this.goToForgotPassword()}>
+					    <Text style={{textAlign: 'center', color: 'gray', marginTop: 10}} onPress={() => this.goToForgotPassword()}>
 					    	Forgot Password?
 					    </Text>
 					    <View style={{flex: 1, justifyContent:'center'}}> 
-						    <TouchableOpacity style={styles.buttonContainer}>
-							    <Text
+						    <TouchableOpacity style={styles.buttonContainer} onPress={!loading ? () => this.login() : () => {}}>
+							    {!loading ? <Text
 							    	style={{textAlign: 'center', 
 							    		color: 'black', 
 							    		fontSize: 20, 
@@ -110,14 +197,17 @@ export default class LoginScreen extends React.Component {
 							    	}}
 							    >
 							    Log In
-							    </Text>
+							    </Text> : <ActivityIndicator size="small" color="#FFF" />}
 							</TouchableOpacity>
 						</View>
+						<Text style={{textAlign: 'center', color: 'gray', marginBottom: 10}} onPress={() => this.goToSignUp()}>
+							Don't have an account?
+ 						</Text>
 						<Text style={{textAlign: 'center', color: 'gray'}}>
-							___________        Or Log In using          ___________
+							___________          Or Log In using          ___________
  						</Text>
 						<View style={{flex:1, flexDirection: 'row', marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
-							<TouchableOpacity style={{alignSelf: 'center'}}>
+							<TouchableOpacity style={{alignSelf: 'center'}} onPress={() => this.openFacebookAuth()}>
 								<Image 
 									source={require('../../images/ZW4QC.png')}
 								/>
@@ -204,7 +294,7 @@ const newStyles = StyleSheet.create({
 		fontFamily: 'oxygen'
 	},
 	headerMargin : {
-		marginTop : 60
+		marginTop : 35
 	},
 	container: {
 		backgroundColor : '#151515',

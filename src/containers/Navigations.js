@@ -8,6 +8,10 @@ import ForgotPassword from './ForgotPassword';
 import ProductList from './ProductList';
 import CurrencyList from './CurrencyList';
 import Register from './Register';
+import AddBooking from './AddBooking';
+import UploadSet from './UploadSet';
+import ListBookings from './ListBookings';
+import { isLoggedIn } from '../utils';
 
 const Categories = TabNavigator({
 	Sets : {
@@ -20,7 +24,7 @@ const Categories = TabNavigator({
 
 const MyApp = DrawerNavigator({
   Home: {
-    screen: CurrencyList,
+    screen: Home,
   },
   Gallery: {
     screen: Gallery,
@@ -41,6 +45,17 @@ const MyApp = DrawerNavigator({
   	screen: ForgotPassword,
   	headerMode: 'none',
     header: null,
+    visible: false
+  },
+  Upload: {
+    screen: UploadSet
+  },
+  AddBooking : {
+    screen: AddBooking,
+    visible: false
+  },
+  ListBookings : {
+    screen: ListBookings,
     visible: false
   }
 });

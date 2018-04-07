@@ -147,49 +147,58 @@ export default class ImageCard extends Component {
 	    this.setState({ fontLoaded: true });
 	}
 
-	viewProduct() {
-		console.log("VIEW PRODUCT SCREEN")
+	viewProduct(image) {
+    console.log(image, "VIEW PRODUCT SCREEN")
+    if(this.props.viewProduct)
+      this.props.viewProduct(image);
 	}
 
   render() {
 
   	const { loading } = this.state;
-  	const { title, subtitle, image } = this.props;
+  	const { title, subtitle, image, name } = this.props;
     return (
-      this.state.fontLoaded ? <Container style={{height: 450}}>
+      this.state.fontLoaded ? <Container style={{height: 500}}>
         
-        <Content>
+        <Content style={{paddingLeft: 10, paddingRight: 10}}>
           <Card>
             <CardItem>
               <Left>
-                <Thumbnail source={image} />
+                {/* <Thumbnail source={image} />
                 <Body>
                   <Text>{title}</Text>
                   <Text note>{subtitle}</Text>
-                </Body>
+                </Body> */}
               </Left>
             </CardItem>
-            <CardItem cardBody button onPress={() => this.viewProduct()}>
+            <CardItem cardBody button onPress={() => this.viewProduct(image)}>
             	
-              		<Image onLoad={() => this.setState({loading: false})} source={this.props.image} style={{height: loading ? 0 : 300, width: null, flex: 1}} />
-					{loading ? <Text>Loading...</Text> : null}            
+              	<Image onLoad={() => this.setState({loading: false})} source={this.props.image} style={{height: loading ? 0 : 300, width: null, flex: 1}} />
+					      {loading ? <Text>Loading...</Text> : null}            
             </CardItem>
             <CardItem>
-              <Left>
+              {/* <Left>
                 <Button transparent>
                   <Icon active name="thumbs-up" />
                   <Text>12 Likes</Text>
                 </Button>
-              </Left>
+              </Left> */}
               <Body>
-                <Button transparent>
+                {/* <Button transparent>
                   <Icon active name="chatbubbles" />
                   <Text>4 Comments</Text>
+                </Button> */}
+                <Text>{name}</Text>
+                <Button block>
+                  <Text>Add To Booking</Text>
+                </Button>
+                <Button block style={{marginTop: 10, marginBottom: 10}}>
+                  <Text>More Info</Text>
                 </Button>
               </Body>
-              <Right>
+              {/* <Right>
                 <Text>11h ago</Text>
-              </Right>
+              </Right> */}
             </CardItem>
           </Card>
         </Content>

@@ -129,7 +129,6 @@ export default class ForgotPassword extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex:1,
-		marginTop: 24,
 		backgroundColor: '#2a2f39'
 	}
 });

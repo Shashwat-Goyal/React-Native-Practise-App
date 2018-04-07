@@ -150,7 +150,9 @@ export default class App extends Component {
         <Provider store={store}>
             <View style={{flex: 1}}>
               <StatusBar translucent hidden={false} backgroundColor="rgba(0, 0, 0, 0.20)" barStyle="dark-content" animated/>
-              <Navigations onNavigationStateChange={(prevState, currentState) => this.navigationChange(prevState, currentState)} />
+              <View style={{flex: 1, marginTop: 24}}>
+                <Navigations onNavigationStateChange={(prevState, currentState) => this.navigationChange(prevState, currentState)} />
+              </View>
             </View>
         </Provider>
       )
